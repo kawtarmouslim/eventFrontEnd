@@ -1,0 +1,31 @@
+header {
+    background: linear-gradient(135deg, #ff8c00, #e65100);
+    color: #f5f5f5; /* Changed from white to light gray */
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #f5f5f5; /* Explicitly set to match header */
+}
+
+nav a {
+    color: #f5f5f5; /* Changed from white to light gray */
+    text-decoration: none;
+    margin: 0 1.2rem;
+    font-size: 0.95rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: opacity 0.3s ease;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
