@@ -4,7 +4,7 @@ export class Event {
     type!:string;
     nombrePlase!:number;
     description!:string;
-    dateDebut!:Date;
-    dateFin!:Date;
+    dateDebut!:string;
+    dateFin!:string;
 
 }

@@ -11,9 +11,9 @@ export class EventService {
 
 
   constructor(private http:HttpClient) { }
- public saveEvent(event:Event):Observable<Event>{
-  return this.http.post<Event>(`${this.url}/event`,event);//INSER EVENT DANS UN VARIABLE URL:interpolation
- }
+saveEvent(event: Event): Observable<Event> {
+    return this.http.post<Event>(`${this.url}/event`, event);
+  }
  public getAll():Observable<Event[]>{
   return this.http.get<Event[]>(`${this.url}/events`);
  }
