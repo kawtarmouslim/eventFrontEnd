@@ -1,28 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Client } from '../models/client';
+import { Evenement } from '../models/evenement';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  private url="http://localhost:8084/api/v1";
+  private baseUrl = 'http://localhost:8084/api/v1'; // à adapter si ton back a un autre port
 
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-saveEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(`${this.url}/event`, event);
+  createEvenement(evenement: Evenement): Observable<Evenement> {
+    return this.http.post<Evenement>(`${this.baseUrl}/event`, evenement);
   }
- public getAll():Observable<Event[]>{
-  return this.http.get<Event[]>(`${this.url}/events`);
- }
- public delete(id:number):Observable<Event>{
-  return this.http.delete<Event>(`${this.url}/${id}`)
- }
- public update(event:Event,id:number):Observable<Event>{
-  return this.http.put<Event>(`${this.url}/${id}`,event);
- }
+
+  getAllEvenements(): Observable<Evenement[]> {
+    return this.http.get<Evenement[]>(`${this.baseUrl}/events`);
+  }
+
+  getEvenementById(id: number): Observable<Evenement> {
+    return this.http.get<Evenement>(`${this.baseUrl}/event/${id}`);
+  }
+
+  updateEvenement(id: number, evenement: Evenement): Observable<Evenement> {
+    return this.http.put<Evenement>(`${this.baseUrl}/event/${id}`, evenement);
+  }
+
+  deleteEvenement(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getEvenementsByType(type: string): Observable<Evenement[]> {
+    return this.http.get<Evenement[]>(`${this.baseUrl}/type/${type}`);
+  }
+
 
 
 }

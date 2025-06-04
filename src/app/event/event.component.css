@@ -1,12 +1,28 @@
-.event-form {
+form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
+  gap: 1rem;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 16px;
 }
-
-.full-width {
+input, textarea {
+  padding: 0.5rem;
   width: 100%;
+}
+textarea {
+  min-height: 100px;
+}
+button {
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+div[style="color: red;"] {
+  font-size: 0.9rem;
 }

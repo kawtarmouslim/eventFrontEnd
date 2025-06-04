@@ -1,52 +1,58 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../services/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Evenement } from '../models/evenement';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Event } from '../models/event';
+
+
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent implements OnInit{
-  
-eventForm: FormGroup;
+export class EventComponent implements OnInit {
+  eventForm!: FormGroup;
+  nameError: string | null = null;
 
   constructor(
-    private service: EventService,
-    private router: Router,
-    private fb: FormBuilder
-  ) {
-    // Initialisation du formulaire
-    this.eventForm = this.fb.group({
-      titre: [''],
-      type: [''],
-      nombrePlase: [0],
-      description: [''],
-      dateDebut: [''],
-      dateFin: ['']
-    });
-  }
+    private formBuilder: FormBuilder,
+    private eventService: EventService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    
+    this.initForm();
   }
-  add(): void {
-    const formValue = {
-      ...this.eventForm.value,
-      dateDebut: this.eventForm.value.dateDebut ? new Date(this.eventForm.value.dateDebut).toISOString() : null,
-      dateFin: this.eventForm.value.dateFin ? new Date(this.eventForm.value.dateFin).toISOString() : null
-    };
 
-    this.service.saveEvent(formValue).subscribe({
-      next: () => {
-        alert('Événement créé !');
-        this.router.navigate(['']);
-      },
-      error: () => {
-        alert('Erreur lors de la création');
-      }
+  initForm(): void {
+    this.eventForm = this.formBuilder.group({
+      titre: ['', [Validators.required, Validators.minLength(3)]],
+      dateDebut: ['', Validators.required],
+      dateFin: ['', Validators.required],
+      description: ['', Validators.required],
+      nombrePlase: ['', Validators.required],
+      type: ['', Validators.required]
     });
+  }
+
+  onSubmit(): void {
+    if (this.eventForm.valid) {
+      const formData: Evenement = this.eventForm.value;
+      this.eventService.createEvenement(formData).subscribe({
+        next: (response: Evenement) => {
+          console.log('Événement créé avec succès', response);
+          this.router.navigate(['event/all']);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la création de l\'événement', error);
+          if (error.status === 400) {
+            this.nameError = 'Le nom de l\'événement existe déjà. Veuillez en choisir un autre.';
+          } else {
+            this.nameError = 'Une erreur s\'est produite lors de l\'ajout de l\'événement.';
+          }
+        }
+      });
+    }
   }
 }
 

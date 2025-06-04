@@ -1,52 +1,49 @@
-<h2>Créer un événement</h2>
-
-<form [formGroup]="eventForm" (ngSubmit)="add()" class="event-form">
-  <!-- Titre -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Titre</mat-label>
-    <input matInput formControlName="titre" />
-  </mat-form-field>
-
-  <!-- Type -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Type</mat-label>
-    <mat-select formControlName="type">
-      <mat-option value="concert">Concert</mat-option>
-      <mat-option value="conference">Conférence</mat-option>
-      <mat-option value="atelier">Atelier</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <!-- Nombre de places -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Nombre de places</mat-label>
-    <input matInput type="number" formControlName="nombrePlase" />
-  </mat-form-field>
-
-  <!-- Description -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
-  </mat-form-field>
-
-  <!-- Date de début -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Date de début</mat-label>
-    <input matInput [matDatepicker]="picker1" formControlName="dateDebut" />
-    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-datepicker #picker1></mat-datepicker>
-  </mat-form-field>
-
-  <!-- Date de fin -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Date de fin</mat-label>
-    <input matInput [matDatepicker]="picker2" formControlName="dateFin" />
-    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-    <mat-datepicker #picker2></mat-datepicker>
-  </mat-form-field>
-
-  <!-- Bouton -->
-  <button mat-raised-button color="primary" type="submit">
-    Créer l'événement
-  </button>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="titre">Titre de l'événement</label>
+    <input id="titre" formControlName="titre" type="text">
+    <div *ngIf="eventForm.get('titre')?.invalid && eventForm.get('titre')?.touched">
+      <span *ngIf="eventForm.get('titre')?.errors?.['required']">Le titre est requis.</span>
+      <span *ngIf="eventForm.get('titre')?.errors?.['minlength']">Le titre doit contenir au moins 3 caractères.</span>
+    </div>
+  </div>
+  <div>
+    <label for="dateDebut">Date de début</label>
+    <input id="dateDebut" formControlName="dateDebut" type="date">
+    <div *ngIf="eventForm.get('dateDebut')?.invalid && eventForm.get('dateDebut')?.touched">
+      La date de début est requise.
+    </div>
+  </div>
+  <div>
+    <label for="dateFin">Date de fin</label>
+    <input id="dateFin" formControlName="dateFin" type="date">
+    <div *ngIf="eventForm.get('dateFin')?.invalid && eventForm.get('dateFin')?.touched">
+      La date de fin est requise.
+    </div>
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <div *ngIf="eventForm.get('description')?.invalid && eventForm.get('description')?.touched">
+      La description est requise.
+    </div>
+  </div>
+  <div>
+    <label for="nombrePlase">Nombre de places</label>
+    <input id="nombrePlase" formControlName="nombrePlase" type="number">
+    <div *ngIf="eventForm.get('nombrePlase')?.invalid && eventForm.get('nombrePlase')?.touched">
+      Le nombre de places est requis.
+    </div>
+  </div>
+  <div>
+    <label for="type">Type</label>
+    <input id="type" formControlName="type" type="text">
+    <div *ngIf="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">
+      Le type est requis.
+    </div>
+  </div>
+  <div *ngIf="nameError" style="color: red;">
+    {{ nameError }}
+  </div>
+  <button type="submit" [disabled]="eventForm.invalid">Ajouter l'événement</button>
 </form>
